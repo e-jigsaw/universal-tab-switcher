@@ -12,10 +12,15 @@ class Prompt extends Component
   componentDidMount: ->
     findDOMNode @refs.input .focus!
 
+  change: (event)->
+    console.log event
+
   render: ->
     DOM.input do
       key: \prompt-input
+      type: \text
       style: @style
+      onKeyUp: @change
       ref: \input
 
 module.exports = Prompt

@@ -1,5 +1,5 @@
 req, sender, callback <- chrome.runtime.onMessage.addListener
-
-console.log req, sender
-
-callback \hello
+chrome.tabs.query do
+  {}
+  (tabs)-> callback tabs
+true
