@@ -9,6 +9,7 @@ event <- document.addEventListener do
   \keyup
 
 if event.ctrlKey and event.keyCode is 84
+  console.log chrome.runtime
   host = document.getElementById \universal-tab-switcher
   if host is null
     host = document.body.appendChild createDiv!

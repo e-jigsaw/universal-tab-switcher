@@ -1,5 +1,7 @@
 DIST=./build
 WEBPACK=./node_modules/.bin/webpack
+ENTRY=./src/index.ls
+OUTPUT=$(DIST)/index.js
 
 all: lson build
 
@@ -9,5 +11,9 @@ before:
 lson: before
 	@ lson -o build src/*.lson
 
-build: before
-	@ $(WEBPACK) src/index.ls $(DIST)/index.js
+bundle: before
+	@ $(WEBPACK) $(ENTRY) $(OUTPUT)
+
+build:
+	@ make bundle
+	@ make bundle ENTRY=./src/event.ls OUTPUT=$(DIST)/event.js
