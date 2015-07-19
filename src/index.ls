@@ -5,7 +5,7 @@ require! {
 
 createDiv = -> document.createElement \div
 
-tabs <- chrome.runtime.sendMessage {}
+tabs <- chrome.runtime.sendMessage cmd: \get
 container = document.getElementById \universal-tab-switcher
 if container is null
   container = document.body.appendChild createDiv!

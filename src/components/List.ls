@@ -5,16 +5,17 @@ require! {
 class List extends Component
   displayName: \List
   render: ->
-    console.log @props
     DOM.li do
-      key: "list-#{@props.id}"
+      key: "list-#{@props.tab.id}"
+      style:
+        backgroundColor: if @props.isSelected then \#F0A97C else \#fff
       DOM.img do
-        key: "list-#{@props.id}-favicon"
-        src: @props.favIconUrl
+        key: "list-#{@props.tab.id}-favicon"
+        src: @props.tab.favIconUrl
         style:
           width: \16px
           height: \16px
           marginRight: \4px
-      @props.title
+      @props.tab.title
 
 module.exports = List

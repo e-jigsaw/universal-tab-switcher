@@ -7,7 +7,6 @@ class ListContainer extends Component
   displayName: \ListContainer
   style:
     height: \600px
-    overflow: \scroll
     listStyleType: \none
     backgroundColor: \#fff
     padding: 0
@@ -18,6 +17,10 @@ class ListContainer extends Component
     DOM.ul do
       key: \ListContainer
       style: @style
-      for tab in @props.tabs then createElement List, tab
+      for tab, i in @props.tabs
+        createElement do
+          List
+          tab: tab
+          isSelected: i is @props.selectedRow
 
 module.exports = ListContainer
