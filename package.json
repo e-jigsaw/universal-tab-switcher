@@ -3,19 +3,36 @@
   "version": "0.0.0",
   "description": "Universal tab switcher for Google Chrome",
   "main": "index.js",
+  "config": {
+    "DEST": "build"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "before": "mkdir -p $npm_package_config_DEST",
+    "build": "npm-run-all before -p build:*",
+    "build:bundle": "browserify -t [ @jigsaw/anyify --ls [ livescript?compile ] ] src/index.ls > $npm_package_config_DEST/index.js",
+    "build:ls": "lsc -co $npm_package_config_DEST src/event.ls",
+    "build:jade": "jade src --out $npm_package_config_DEST",
+    "build:lson": "lson -o $npm_package_config_DEST src/*.lson",
+    "clean": "rm -rf $npm_package_config_DEST",
+    "watch": "npm-run-all -p watch:*",
+    "watch:ls": "chokidar 'src/event.ls' -c 'npm run build:ls'",
+    "watch:bundle": "chokidar '+(src/index.ls|src/actions.ls|src/reducers.ls|src/components/*.ls)' -c 'npm run build:bundle'"
   },
   "author": "jigsaw (http://jgs.me)",
   "license": "MIT",
   "devDependencies": {
+    "@jigsaw/anyify": "^1.0.1",
+    "browserify": "^12.0.1",
+    "chokidar-cli": "^1.2.0",
     "fuse.js": "^1.2.2",
     "jade": "^1.11.0",
     "livescript": "^1.4.0",
-    "livescript-loader": "^0.1.5",
-    "lson-cli": "0.0.1",
-    "node-libs-browser": "^0.5.2",
-    "react": "^0.13.3",
-    "webpack": "^1.10.1"
+    "lson-cli": "0.0.6",
+    "npm-run-all": "^1.3.2",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "redux-thunk": "^1.0.0"
   }
 }
