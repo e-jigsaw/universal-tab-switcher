@@ -2,6 +2,9 @@ action-types =
   <[
     INITIALIZE
     SEARCH_BY_WORDS
+    SELECT_UP
+    SELECT_DOWN
+    UPDATE_FILTER
   ]>
 
 action-types.map (type)-> exports[type] = type
@@ -30,25 +33,22 @@ exports.select-down = select-down = ->
 
 exports.select = select = -> (dispatch, get-state)->
   {filtered-tabs, selected-row} = get-state!
-  console.log \select
-  # chrome.runtime.sendMessage do
-  #   cmd: \set
-  #   tab: filtered-tabs[selected-row]
+  chrome.runtime.sendMessage do
+    cmd: \set
+    tab: filtered-tabs[selected-row]
 
-exports.update-filter = update-filter = -> ->
-  console.log \update
-  # filteredTabs = new Fuse do
-  #   @props.tabs
-  #   keys: [\title]
-  # .search value
-  # @setState do
-  #   filteredTabs: if filteredTabs.length is 0 then @props.tabs else filteredTabs
-  #   selectedRow: 0
+exports.update-filter = update-filter = (text, dispatch, get-state)-->
+  dispatch do
+    type: refs.UPDATE_FILTER
+    text: text
+    tabs: get-state!.tabs
 
-exports.key-down-handler = (event, dispatch, get-state)-->
+exports.on-change-handler = (event, dispatch, get-state)-->
+  dispatch update-filter event.target.value
+
+exports.on-key-down-handler = (event, dispatch, get-state)-->
   {key-code} = event
   {selected-row, filtered-tabs} = get-state!
-  console.log selected-row, filtered-tabs
   switch
   | key-code is 38 and selected-row > 0 =>
     dispatch select-up!
@@ -56,5 +56,3 @@ exports.key-down-handler = (event, dispatch, get-state)-->
     dispatch select-down!
   | key-code is 13 =>
     dispatch select!
-  | otherwise =>
-    dispatch update-filter event

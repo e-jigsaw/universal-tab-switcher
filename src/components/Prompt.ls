@@ -15,6 +15,7 @@ class Prompt extends Component
         margin: '0 auto'
         width: \100%
         fontSize: \32px
+      on-change: @props.on-change
       on-key-down: @props.on-key-down
       ref: \input
 
