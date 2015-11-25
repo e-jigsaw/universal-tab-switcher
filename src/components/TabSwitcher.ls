@@ -1,60 +1,36 @@
 require! {
-  react: {Component, DOM, createElement}
+  react: {Component, DOM, create-element}
+  \react-redux : {connect}
   \fuse.js : Fuse
+  \../actions.ls : {initialize, on-change-handler, on-key-down-handler}
   \./Prompt.ls
-  \./ListContainer.ls
+  \./Lists.ls
 }
 
 class TabSwitcher extends Component
-  (props)->
-    @state =
-      selectedRow: 0
-      filteredTabs: props.tabs
-
-  displayName: \TabSwitcher
-  style:
-    parent:
-      width: \100%
-    child:
-      margin: '0 auto'
-
-  onChange: ({keyCode, value})~>
-    switch
-      when keyCode is 38 and @state.selectedRow > 0
-        @setState do
-          selectedRow: @state.selectedRow - 1
-      when keyCode is 40 and @state.selectedRow < @state.filteredTabs.length - 1
-        @setState do
-          selectedRow: @state.selectedRow + 1
-      when keyCode is 13
-        chrome.runtime.sendMessage do
-          cmd: \set
-          tab: @state.filteredTabs[@state.selectedRow]
-      else
-        filteredTabs = new Fuse do
-          @props.tabs
-          keys: [\title]
-        .search value
-        @setState do
-          filteredTabs: if filteredTabs.length is 0 then @props.tabs else filteredTabs
-          selectedRow: 0
+  component-will-mount: ->
+    @props.dispatch initialize!
 
   render: ->
     DOM.div do
-      key: \TabSwitcherParent
-      style: @style.parent
+      style:
+        width: \100%
       DOM.div do
-        key: \PromptContainer
-        style: @style.child
-        createElement do
+        style:
+          margin: '0 auto'
+        create-element do
           Prompt
-          onChange: @onChange
+          on-change: (event)~> @props.dispatch on-change-handler event
+          on-key-down: (event)~> @props.dispatch on-key-down-handler event
       DOM.div do
-        key: \ListContainerParent
-        style: @style.child
-        createElement do
-          ListContainer
-          tabs: @state.filteredTabs
-          selectedRow: @state.selectedRow
+        style:
+          margin: '0 auto'
+        create-element do
+          Lists
+          tabs: @props.filtered-tabs
+          selected-row: @props.selected-row
 
-module.exports = TabSwitcher
+module.exports =
+  connect do
+    (state)-> state
+  <| TabSwitcher

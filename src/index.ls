@@ -1,9 +1,16 @@
 require! {
-  react: {render, createElement}
+  react: {create-element}
+  redux: {create-store, apply-middleware}
+  \react-redux : {Provider}
+  \react-dom : {render}
+  \redux-thunk : thunk-middleware
   \./components/TabSwitcher.ls
+  \./reducers.ls
 }
 
-tabs <- chrome.runtime.sendMessage cmd: \get
 render do
-  createElement TabSwitcher, tabs: tabs
-  document.getElementById \universal-tab-switcher
+  create-element do
+    Provider
+    store: apply-middleware(thunk-middleware)(create-store)(reducers)
+    create-element TabSwitcher
+  document.get-element-by-id \universal-tab-switcher
