@@ -1,15 +1,12 @@
 require! {
   react: {Component, DOM, create-element}
-  \react-redux : {connect}
-  \fuse.js : Fuse
-  \../actions.ls : {initialize, on-change-handler, on-key-down-handler}
-  \./Prompt.ls
-  \./Lists.ls
+  \../containers/prompt.ls : Prompt
+  \../containers/lists.ls : Lists
 }
 
 class TabSwitcher extends Component
   component-will-mount: ->
-    @props.dispatch initialize!
+    @props.initialize!
 
   render: ->
     DOM.div do
@@ -18,19 +15,10 @@ class TabSwitcher extends Component
       DOM.div do
         style:
           margin: '0 auto'
-        create-element do
-          Prompt
-          on-change: (event)~> @props.dispatch on-change-handler event
-          on-key-down: (event)~> @props.dispatch on-key-down-handler event
+        create-element Prompt
       DOM.div do
         style:
           margin: '0 auto'
-        create-element do
-          Lists
-          tabs: @props.filtered-tabs
-          selected-row: @props.selected-row
+        create-element Lists
 
-module.exports =
-  connect do
-    (state)-> state
-  <| TabSwitcher
+module.exports = TabSwitcher

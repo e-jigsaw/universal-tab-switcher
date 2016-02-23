@@ -4,7 +4,7 @@ require! {
   \react-redux : {Provider}
   \react-dom : {render}
   \redux-thunk : thunk-middleware
-  \./components/TabSwitcher.ls
+  \./containers/tab-switcher.ls : TabSwitcher
   \./reducers.ls
 }
 
