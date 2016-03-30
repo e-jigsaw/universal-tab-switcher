@@ -31,7 +31,7 @@
     "livescript": "^1.4.0",
     "lson-cli": "0.0.6",
     "npm-run-all": "^1.6.0",
-    "react": "^0.14.7",
+    "react": "^0.14.8",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
