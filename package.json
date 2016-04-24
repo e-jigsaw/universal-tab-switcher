@@ -30,11 +30,11 @@
     "jade": "^1.11.0",
     "livescript": "^1.4.0",
     "lson-cli": "0.0.6",
-    "npm-run-all": "^1.7.0",
+    "npm-run-all": "^1.8.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.1",
+    "redux": "^3.5.2",
     "redux-thunk": "^2.0.1",
     "uglify-js": "^2.6.2"
   }
