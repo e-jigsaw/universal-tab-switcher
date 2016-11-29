@@ -36,6 +36,6 @@
     "react-redux": "^4.4.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "uglify-js": "^2.7.4"
+    "uglify-js": "^2.7.5"
   }
 }
